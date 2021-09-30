@@ -29,6 +29,8 @@ params.generate_samplesheets = false
 params.max_cores = 16
 params.max_wells_per_sample = 20
 params.demux_buffer_blocks = 16
+params.bcl2fastq_barcode_mismatches = 1
+params.minimum_read_length_after_trim = 15
 
 params.multi_exp = 0
 params.p5_cols = 0
@@ -40,28 +42,28 @@ include {
     generate_sheets
     check_sample_sheet
     make_sample_sheet
-} from './module.samplesheets'
+} from './modules/samplesheets'
 
 include {
     bcl2fastq
-} from './module.bcl2fastq'
+} from './modules/bcl2fastq'
 
 include {
     seg_sample_fastqs1
-} from './module.process-small'
+} from './modules/process-small'
 
 include {
     seg_sample_fastqs2
-} from './module.process-large'
+} from './modules/process-large'
 
 include {
     demux_dash
-} from './module.dashboard'
+} from './modules/dashboard'
 
 include {
     run_recovery
     sum_recovery
-} from './module.recovery'
+} from './modules/recovery'
 
 def validate(params) {
     if (!params.run_dir || !params.output_dir || !params.sample_sheet ) {
@@ -169,7 +171,14 @@ workflow {
         bcl_mem = params.bcl_max_mem/max_cores_bcl
     }
 
-    bcl2fastq( run_dir, bcl_sample_sheet, max_cores_bcl, bcl_mem )
+    bcl2fastq(
+        run_dir, 
+        bcl_sample_sheet, 
+        max_cores_bcl, 
+        bcl_mem ,
+        params.bcl2fastq_barcode_mismatches,
+        params.minimum_read_length_after_trim
+    )
 
     fastqs = bcl2fastq.out.fastqs.flatten()
 
@@ -254,11 +263,24 @@ workflow {
     demux_dash( csv_stats.collect(), json_stats.collect(), sample_sheet_file )
 
     if (params.run_recovery) {
-        // TODO
-        // run_recovery
-        // sum_recovery
-    }
+        undetermined_fastqs = Channel.fromPath("${params.demux_out}/Undetermined*")
 
+        run_recovery(
+            undetermined_fastqs,
+            sample_sheet,
+            rt_barcode_file,
+            p5_barcode_file,
+            p7_barcode_file,
+            lig_barcode_file
+        )
+
+        summary = run_recovery.out.summaries.collect()
+
+        sum_recovery( summary )
+    }
+}
+
+workflow.onComplete {
     println "bbi-dmux completed at: $workflow.complete"
     println "Execution status: ${ workflow.success ? 'OK' : 'failed' }"
 }

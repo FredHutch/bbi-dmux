@@ -1,6 +1,6 @@
 
 process demux_dash {
-    publishDir path: "${params.output_dir}/", pattern: "demux_dash", mode: 'copy'
+    publishDir path: "${params.output_dir}/", pattern: "demux_dash", mode: 'copy', overwrite: true
 
     input:
         file( demux_stats )

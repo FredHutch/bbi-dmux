@@ -1,11 +1,11 @@
 process bcl2fastq {
-    cache 'lenient'
-
     input:
         path( run_dir )
         file( bcl_samp_sheet )
         val( max_cores_bcl )
         val( bcl_mem )
+        val( barcode_mismatches )
+        val( minimum_read_length_after_trim )
 
     output:
         path( "lane_fastqs" ), emit: bcl2fastq_output
@@ -25,13 +25,13 @@ bcl2fastq -R $run_dir --output-dir ./lane_fastqs \
     --loading-threads \$min_threads \
     --processing-threads $max_cores_bcl  \
     --writing-threads \$min_threads \
-    --barcode-mismatches 1 \
+    --barcode-mismatches $barcode_mismatches \
     --ignore-missing-positions \
     --ignore-missing-controls \
     --ignore-missing-filter \
     --ignore-missing-bcls \
-    --minimum-trimmed-read-length 15 \
-    --mask-short-adapter-reads 15
+    --minimum-trimmed-read-length $minimum_read_length_after_trim \
+    --mask-short-adapter-reads $minimum_read_length_after_trim
 
 """
 }

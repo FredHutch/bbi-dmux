@@ -1,9 +1,9 @@
 process seg_sample_fastqs1 {
     cache 'lenient'
 
-    publishDir path: "${params.output_dir}/", pattern: "demux_out/*fastq.gz", mode: 'link'     
-    publishDir path: "${params.output_dir}/demux_out/", pattern: "*.csv", mode: 'copy'
-    publishDir path: "${params.output_dir}/demux_out/", pattern: "*.json", mode: 'copy'
+    publishDir path: "${params.output_dir}/", pattern: "demux_out/*fastq.gz", mode: 'link', overwrite: true
+    publishDir path: "${params.output_dir}/demux_out/", pattern: "*.csv", mode: 'copy', overwrite: true
+    publishDir path: "${params.output_dir}/demux_out/", pattern: "*.json", mode: 'copy', overwrite: true
 
     input:
         tuple file(R1), file(R2)

@@ -1,9 +1,9 @@
 
 process generate_sheets {
-    publishDir path: "${params.output_dir}", pattern: "SampleSheet.csv", mode: 'copy'
-    publishDir path: "${params.output_dir}", pattern: "SampleMap.csv", mode: 'copy'
-    publishDir path: "${params.output_dir}", pattern: "GarnettSheet.csv", mode: 'copy'
-    publishDir path: "${params.output_dir}/sample_id_maps", pattern: "*_SampleIDMap.csv", mode: 'copy'
+    publishDir path: "${params.output_dir}", pattern: "SampleSheet.csv", mode: 'copy', overwrite: true
+    publishDir path: "${params.output_dir}", pattern: "SampleMap.csv", mode: 'copy', overwrite: true
+    publishDir path: "${params.output_dir}", pattern: "GarnettSheet.csv", mode: 'copy', overwrite: true
+    publishDir path: "${params.output_dir}/sample_id_maps", pattern: "*_SampleIDMap.csv", mode: 'copy', overwrite: true
 
     input:
         file( sample_sheet )
@@ -31,11 +31,10 @@ process check_sample_sheet {
     output:
         path ("*.csv" ), emit: good_sample_sheet
 
-    when:
-        params.generate_samplesheets == "no_input"
-
 """/bin/bash
 set -Eeuo pipefail
+
+echo "test"
 
 check_sample_sheet.py \
     --sample_sheet $sample_sheet \
@@ -59,9 +58,6 @@ process make_sample_sheet {
 
     output:
         path( "SampleSheet.csv" ), emit: bcl_sample_sheet
-
-    when:
-        !params.run_recovery
 
 """/bin/bash
 set -Eeuo pipefail

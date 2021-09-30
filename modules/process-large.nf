@@ -38,10 +38,10 @@ pigz -p 8 demux_out/*.fastq
 
 process recombine_fastqs {
     cache 'lenient'
-    publishDir  path: "${params.output_dir}/demux_out", pattern: "*.fastq.gz", mode: 'move'
+    publishDir  path: "${params.output_dir}/demux_out", pattern: "*.fastq.gz", mode: 'move', overwrite: true
 
     input:
-        set prefix, file(all_fqs) from grouped_files 
+        tuple val( prefix ), file( all_fqs ) 
 
     output:
         path "*.gz"
@@ -55,10 +55,10 @@ cat $all_fqs > ${prefix}.fastq.gz
 
 process recombine_csvs {
     cache 'lenient'
-    publishDir  path: "${params.output_dir}/demux_out/", pattern: "*.csv", mode: 'copy'
+    publishDir  path: "${params.output_dir}/demux_out/", pattern: "*.csv", mode: 'copy', overwrite: true
 
     input:
-        set prefix, file(all_csvs) from grouped_csvs
+        tuple val( prefix ), file( all_csvs )
 
     output:
         path "*.csv"
@@ -79,10 +79,10 @@ cat \$(IFS=\$'\n'; echo "\${arr[*]}" | grep pcr_counts) | awk -F ',' 'BEGIN {OFS
 
 process recombine_jsons {
     cache 'lenient'
-    publishDir  path: "${params.output_dir}/demux_out/", pattern: "*.json", mode: 'copy'
+    publishDir  path: "${params.output_dir}/demux_out/", pattern: "*.json", mode: 'copy', overwrite: true
 
     input:
-        set prefix, file(all_jsons) from grouped_jsons
+        tuple val( prefix ), file( all_jsons )
 
     output:
         path "*.json"
