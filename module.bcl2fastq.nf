@@ -1,7 +1,5 @@
 process bcl2fastq {
     cache 'lenient'
-    cpus max_cores_bcl
-    memory "${bcl_mem} GB"
 
     input:
         path( run_dir )
@@ -10,9 +8,12 @@ process bcl2fastq {
         val( bcl_mem )
 
     output:
-        path "lane_fastqs" emit: bcl2fastq_output
-        file( "lane_fastqs/Undetermined_S0_*_R1_001.fastq.gz" ), file("lane_fastqs/Undetermined_S0_*_R2_001.fastq.gz") mode flatten, emit: fastqs
-        file( "lane_fastqs/fake*.gz" ) optional true mode flatten, emit: fakes
+        path( "lane_fastqs" ), emit: bcl2fastq_output
+        tuple path( "lane_fastqs/Undetermined_S0_*_R1_001.fastq.gz" ), path("lane_fastqs/Undetermined_S0_*_R2_001.fastq.gz"), emit: fastqs
+        path( "lane_fastqs/fake*.gz" ), emit: fakes optional true
+    
+    cpus "${max_cores_bcl}"
+    memory "${bcl_mem} GB"
 
     """/bin/bash
 set -Eeuo pipefail

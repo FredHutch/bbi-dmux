@@ -2,7 +2,7 @@ process seg_sample_fastqs2 {
     cache 'lenient'
 
     input:
-        set file(R1), file(R2) from fastqs
+        tuple file(R1), file(R2)
         file run_parameters_file
         file sample_sheet_file
         file rt_barcode_file
@@ -11,10 +11,10 @@ process seg_sample_fastqs2 {
         file lig_barcode_file
 
     output:
-        file "demux_out/*", emit: seg_output
-        file "demux_out/*.fastq.gz" mode flatten, emit: samp_fastqs_check
-        file "demux_out/*.stats.json" mode flatten, emit: json_stats
-        file "demux_out/*.csv" mode flatten, emit: csv_stats
+        path "demux_out/*", emit: seg_output
+        path "demux_out/*.fastq.gz", emit: samp_fastqs_check
+        path "demux_out/*.stats.json", emit: json_stats
+        path "demux_out/*.csv", emit: csv_stats
 
 """/bin/bash
 set -Eeuo pipefail
@@ -44,7 +44,7 @@ process recombine_fastqs {
         set prefix, file(all_fqs) from grouped_files 
 
     output:
-        file "*.gz"
+        path "*.gz"
 
 """/bin/bash
 set -Eeuo pipefail
@@ -61,7 +61,7 @@ process recombine_csvs {
         set prefix, file(all_csvs) from grouped_csvs
 
     output:
-        file "*.csv"
+        path "*.csv"
 
 """/bin/bash
 set -Eeuo pipefail
@@ -85,7 +85,7 @@ process recombine_jsons {
         set prefix, file(all_jsons) from grouped_jsons
 
     output:
-        file "*.json"
+        path "*.json"
 
 """#!/usr/bin/env python
 import json

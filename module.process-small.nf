@@ -6,7 +6,7 @@ process seg_sample_fastqs1 {
     publishDir path: "${params.output_dir}/demux_out/", pattern: "*.json", mode: 'copy'
 
     input:
-        set file(R1), file(R2) from fastqs
+        tuple file(R1), file(R2)
         file( run_parameters_file )
         file( sample_sheet_file )
         file( rt_barcode_file )
@@ -15,10 +15,10 @@ process seg_sample_fastqs1 {
         file( lig_barcode_file )
 
     output:
-        file "demux_out/*", emit: seg_output
-        file "demux_out/*.fastq.gz", emit: samp_fastqs_check
-        file "demux_out/*.stats.json" mode flatten, emit: json_stats 
-        file "demux_out/*.csv", emit: csv_stats
+        path "demux_out/*", emit: seg_output
+        path "demux_out/*.fastq.gz", emit: samp_fastqs_check
+        path "demux_out/*.stats.json", emit: json_stats 
+        path "demux_out/*.csv", emit: csv_stats
  
 """/bin/bash
 set -Eeuo pipefail

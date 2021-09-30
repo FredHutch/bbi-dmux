@@ -7,7 +7,7 @@ process demux_dash {
         file( jsons )
         file( sample_sheet )
     output:
-        file( demux_dash )
+        path( demux_dash )
 
     script:
     

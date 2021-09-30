@@ -139,7 +139,7 @@ workflow {
         rt_barcode_file = file(params.rt_barcode_file)
     }
 
-    star_file = params.star_file == DEFAULT ? file(params.default_star_file) : file(params.star_file)
+    star_file = params.star_file == DEFAULT ? file(default_star_file) : file(params.star_file)
     lig_barcode_file = params.lig_barcode_file == DEFAULT ? file(default_lig_barcode_file) : file(params.lig_barcode_file)
     p5_barcode_file = params.p5_barcode_file == DEFAULT ? file(default_p5_barcode_file) : file(params.p5_barcode_file)
     p7_barcode_file = params.p7_barcode_file == DEFAULT ? file(default_p7_barcode_file) : file(params.p7_barcode_file)
@@ -156,7 +156,7 @@ workflow {
     }
 
     if ( !params.run_recovery ) {
-        make_sample_sheet( run_parameters_file, good_sample_sheet )
+        make_sample_sheet( run_parameters_file, sample_sheet_file )
 
         bcl_sample_sheet = make_sample_sheet.out.bcl_sample_sheet
     }
@@ -171,7 +171,7 @@ workflow {
 
     bcl2fastq( run_dir, bcl_sample_sheet, max_cores_bcl, bcl_mem )
 
-    fastqs = bcl2fastq.out.fastqs
+    fastqs = bcl2fastq.out.fastqs.flatten()
 
     /*
     ** ================================================================================
@@ -190,7 +190,7 @@ workflow {
         )
 
         csv_stats = seg_sample_fastqs1.out.csv_stats
-        json_stats = seg_sample_fastqs1.out.json_stats
+        json_stats = seg_sample_fastqs1.out.json_stats.flatten()
     }
 
     /*
@@ -210,9 +210,9 @@ workflow {
             lig_barcode_file
         )
 
-        all_csv_stats = seg_sample_fastqs2.out.csv_stats
-        all_json_stats = seg_sample_fastqs2.out.json_stats
-        sample_fastqs_check = seg_sample_fastqs2.out.sample_fastqs_check
+        all_csv_stats = seg_sample_fastqs2.out.csv_stats.flatten()
+        all_json_stats = seg_sample_fastqs2.out.json_stats.flatten()
+        sample_fastqs_check = seg_sample_fastqs2.out.sample_fastqs_check.flatten()
 
         // Combine Fastqs
         get_prefix = { fname ->

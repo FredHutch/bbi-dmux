@@ -8,9 +8,9 @@ process generate_sheets {
     input:
         file( sample_sheet )
     output:
-        file ("*Sheet.csv"), emit: sample_sheet
-        file ("SampleMap.csv") optional true
-        file ("*_SampleIDMap.csv") optional true
+        path ("*Sheet.csv"), emit: sample_sheet
+        path ("SampleMap.csv") optional true
+        path ("*_SampleIDMap.csv") optional true
 
 """/bin/bash
 set -Eeuo pipefail
@@ -29,7 +29,7 @@ process check_sample_sheet {
         val( max_wells_per_sample )
 
     output:
-        file ("*.csv" ), emit: good_sample_sheet
+        path ("*.csv" ), emit: good_sample_sheet
 
     when:
         params.generate_samplesheets == "no_input"
@@ -58,7 +58,7 @@ process make_sample_sheet {
         file( good_sample_sheet )
 
     output:
-        file( "SampleSheet.csv" ), emit: bcl_sample_sheet
+        path( "SampleSheet.csv" ), emit: bcl_sample_sheet
 
     when:
         !params.run_recovery
