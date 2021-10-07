@@ -230,7 +230,7 @@ workflow {
         sample_fastqs_check = seg_sample_fastqs_large.out.sample_fastqs_check.flatten()
 
         // Combine Fastqs
-        get_prefix = { fname ->
+        def get_prefix = { fname ->
             (fname - ~/_R1_001\.[0-9]+\.fastq.fastq.gz/)
         }
 
@@ -241,7 +241,7 @@ workflow {
         recombine_fastqs(grouped_fastqs)
 
         // Combine CSVs
-        csv_prefix = { fname ->
+        def csv_prefix = { fname ->
             (fname - ~/_R1_001\.[0-9]+\.fastq\.[a-z]+_[a-z]+\.csv/)
         }
 
@@ -252,7 +252,7 @@ workflow {
         recombine_csvs(grouped_csvs)
         
         // Combine JSON
-        json_prefix = { fname ->
+        def json_prefix = { fname ->
             (fname - ~/_R1_001\.[0-9]+\.fastq\.stats\.json/)
         }
 
