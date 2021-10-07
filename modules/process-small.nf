@@ -1,5 +1,5 @@
-process seg_sample_fastqs1 {
-    cache 'lenient'
+process seg_sample_fastqs_small {
+    container "${params.container__mkfastqs}"
 
     publishDir path: "${params.output_dir}/", pattern: "demux_out/*fastq.gz", mode: 'link', overwrite: true
     publishDir path: "${params.output_dir}/demux_out/", pattern: "*.csv", mode: 'copy', overwrite: true
@@ -7,22 +7,22 @@ process seg_sample_fastqs1 {
 
     input:
         tuple file(R1), file(R2)
-        file( run_parameters_file )
-        file( sample_sheet_file )
-        file( rt_barcode_file )
-        file( p5_barcode_file )
-        file( p7_barcode_file )
-        file( lig_barcode_file )
+        file(run_parameters_file)
+        file(sample_sheet_file)
+        file(rt_barcode_file)
+        file(p5_barcode_file)
+        file(p7_barcode_file)
+        file(lig_barcode_file)
 
     output:
         path "demux_out/*", emit: seg_output
         path "demux_out/*.fastq.gz", emit: samp_fastqs_check
         path "demux_out/*.stats.json", emit: json_stats 
         path "demux_out/*.csv", emit: csv_stats
- 
-"""/bin/bash
-set -Eeuo pipefail
 
+    script:
+"""
+set -euo pipefail
 mkdir demux_out
 make_sample_fastqs.py --run_directory . \
     --read1 <(zcat $R1) --read2 <(zcat $R2) \

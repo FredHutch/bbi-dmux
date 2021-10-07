@@ -1,14 +1,14 @@
-process seg_sample_fastqs2 {
-    cache 'lenient'
+process seg_sample_fastqs_large {
+    container "${params.container__mkfastqs}"
 
     input:
         tuple file(R1), file(R2)
-        file run_parameters_file
-        file sample_sheet_file
-        file rt_barcode_file
-        file p5_barcode_file
-        file p7_barcode_file
-        file lig_barcode_file
+        file(run_parameters_file)
+        file(sample_sheet_file)
+        file(rt_barcode_file)
+        file(p5_barcode_file)
+        file(p7_barcode_file)
+        file(lig_barcode_file)
 
     output:
         path "demux_out/*", emit: seg_output
@@ -16,9 +16,8 @@ process seg_sample_fastqs2 {
         path "demux_out/*.stats.json", emit: json_stats
         path "demux_out/*.csv", emit: csv_stats
 
-"""/bin/bash
-set -Eeuo pipefail
-
+"""
+set -euo pipefail
 mkdir demux_out
 make_sample_fastqs.py --run_directory . \
     --read1 $R1 --read2 $R2 \
@@ -37,34 +36,38 @@ pigz -p 8 demux_out/*.fastq
 }
 
 process recombine_fastqs {
-    cache 'lenient'
+    container "${params.container__python}"
+
     publishDir  path: "${params.output_dir}/demux_out", pattern: "*.fastq.gz", mode: 'move', overwrite: true
 
     input:
-        tuple val( prefix ), file( all_fqs ) 
+        tuple val(prefix), file(all_fqs)
 
     output:
         path "*.gz"
 
-"""/bin/bash
-set -Eeuo pipefail
+    script:
+"""
+set -euo pipefail
 
 cat $all_fqs > ${prefix}.fastq.gz 
 """
 }
 
 process recombine_csvs {
-    cache 'lenient'
+    container "${params.container__python}"
+
     publishDir  path: "${params.output_dir}/demux_out/", pattern: "*.csv", mode: 'copy', overwrite: true
 
     input:
-        tuple val( prefix ), file( all_csvs )
+        tuple val(prefix), file(all_csvs)
 
     output:
         path "*.csv"
 
-"""/bin/bash
-set -Eeuo pipefail
+    script:
+"""
+set -euo pipefail
 
 csvs="$all_csvs"    
 arr=(\$csvs)
@@ -78,15 +81,17 @@ cat \$(IFS=\$'\n'; echo "\${arr[*]}" | grep pcr_counts) | awk -F ',' 'BEGIN {OFS
 }
 
 process recombine_jsons {
-    cache 'lenient'
+    container "${params.container__python}"
+
     publishDir  path: "${params.output_dir}/demux_out/", pattern: "*.json", mode: 'copy', overwrite: true
 
     input:
-        tuple val( prefix ), file( all_jsons )
+        tuple val(prefix), file(all_jsons)
 
     output:
         path "*.json"
 
+    script:
 """#!/usr/bin/env python
 import json
 import glob
