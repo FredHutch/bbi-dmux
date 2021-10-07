@@ -4,9 +4,8 @@
 # from a single input sheet
 
 import argparse
-import sys
-import os
 import codecs
+import os
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 

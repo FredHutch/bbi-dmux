@@ -12,8 +12,9 @@
 #        o  bbi-sciatac-demux/main.nf
 #
 
-import sys
 import json
+import sys
+
 import run_info
 
 if __name__ == '__main__':

@@ -2,16 +2,14 @@
 # Make sample fastqs 2-level
 # Andrew's barcode parser/fastq combiner modified for 2-level
 
-import barcodeutils as bu
 import argparse
-import os
-import json
-from collections import OrderedDict
-import re
-import sys
-import glob
-import xml.etree.ElementTree as ET
 import ast
+import barcodeutils as bu
+import json
+import os
+import sys
+from collections import OrderedDict
+
 import run_info
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))

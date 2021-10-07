@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 
-from Bio.SeqIO.QualityIO import FastqGeneralIterator
-import barcodeutils as bu
 import argparse
-import os
-import glob
-import xml.etree.ElementTree as ET
 import operator
+import os
+
+import barcodeutils as bu
+
 import run_info
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
