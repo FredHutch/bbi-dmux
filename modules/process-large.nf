@@ -57,7 +57,7 @@ cat $all_fqs > ${prefix}.fastq.gz
 process recombine_csvs {
     container "${params.container__python}"
 
-    publishDir  path: "${params.output_dir}/demux_out/", pattern: "*.csv", mode: 'copy', overwrite: true
+    publishDir path: "${params.output_dir}/stats/", pattern: "demux_out/*.csv", saveAs: { file(it).getName() }, mode: 'copy', overwrite: true
 
     input:
         tuple val(prefix), file(all_csvs)
@@ -83,7 +83,7 @@ cat \$(IFS=\$'\n'; echo "\${arr[*]}" | grep pcr_counts) | awk -F ',' 'BEGIN {OFS
 process recombine_jsons {
     container "${params.container__python}"
 
-    publishDir  path: "${params.output_dir}/demux_out/", pattern: "*.json", mode: 'copy', overwrite: true
+    publishDir path: "${params.output_dir}/stats/", pattern: "demux_out/*.json", saveAs: { file(it).getName() }, mode: 'copy', overwrite: true
 
     input:
         tuple val(prefix), file(all_jsons)

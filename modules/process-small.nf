@@ -1,9 +1,9 @@
 process seg_sample_fastqs_small {
     container "${params.container__mkfastqs}"
 
-    publishDir path: "${params.output_dir}/", pattern: "demux_out/*fastq.gz", mode: 'link', overwrite: true
-    publishDir path: "${params.output_dir}/demux_out/", pattern: "*.csv", mode: 'copy', overwrite: true
-    publishDir path: "${params.output_dir}/demux_out/", pattern: "*.json", mode: 'copy', overwrite: true
+    publishDir path: "${params.output_dir}/", pattern: "demux_out/*fastq.gz", mode: 'copy', overwrite: true
+    publishDir path: "${params.output_dir}/stats", pattern: "demux_out/*.csv", saveAs: { file(it).getName() }, mode: 'copy', overwrite: true
+    publishDir path: "${params.output_dir}/stats", pattern: "demux_out/*.json", saveAs: { file(it).getName() }, mode: 'copy', overwrite: true
 
     input:
         tuple file(R1), file(R2)
