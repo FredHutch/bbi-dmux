@@ -142,10 +142,10 @@ workflow {
     }
 
     if (params.rt_barcode_file == DEFAULT) {
-        if (params.level == "2") {
+        if (params.level == 2) {
             rt_barcode_file = file(default_rt2_barcode_file)
         }
-        if (params.level == "3") {
+        if (params.level == 3) {
             rt_barcode_file = file(default_rt3_barcode_file)
         }
     } else {
