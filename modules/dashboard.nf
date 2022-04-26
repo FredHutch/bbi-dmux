@@ -1,8 +1,6 @@
 // Creates dashboard of results
-process demux_dash {
+process prep {
     container "${params.container__rscript}"
-
-    publishDir path: "${params.output_dir}/", pattern: "demux_dash", mode: 'copy', overwrite: true
 
     input:
         file(demux_stats)
@@ -25,4 +23,58 @@ generate_html.R \
     --p5_wells "$params.p5_wells" --level "$params.level" --project_name "${project_name}" \
     --sample_sheet "$sample_sheet"
 """
+}
+
+
+process combine {
+    publishDir path: "${params.output_dir}/", mode: 'copy', overwrite: true
+    container "${params.container__python}"
+
+    input:
+        path "*"
+
+    output:
+        path "demux_dash.html"
+
+    """#!/bin/bash
+
+set -euo pipefail
+
+# Copy all of the staged files into the working directory
+cp -rL demux_dash/* ./
+
+# Copy the log data into the folder with the other JS files
+cp log_data.js js/
+
+# Generate a single-page HTML
+generate_single_page.py
+
+# Overwrite the template
+mv demux_dash_new.html demux_dash.html
+
+"""
+}
+
+
+workflow demux_dash {
+
+    take:
+        demux_stats
+        jsons
+        sample_sheet
+        skeleton_dash
+
+    main:
+
+        prep(
+            demux_stats,
+            jsons,
+            sample_sheet,
+            skeleton_dash
+        )
+
+        combine(
+            prep.out
+        )
+
 }
