@@ -23,7 +23,7 @@ function RTTabPlate(props) {
       "Plate ",
       props.plate_name
     ),
-    React.createElement("img", { src: "img/L00" + props.lane + "_" + props.plate_name + ".rt_plate.png", width: "50%", className: "rounded mx-auto d-block", alt: "..." }),
+    React.createElement("img", { src: img_data["L00" + props.lane + "_" + props.plate_name + ".rt_plate.png"], width: "50%", className: "rounded mx-auto d-block", alt: "..." }),
     norm ? React.createElement(
       "span",
       null,
@@ -32,13 +32,13 @@ function RTTabPlate(props) {
         null,
         "Sentinel Normalized"
       ),
-      React.createElement("img", { src: "img/L00" + props.lane + "_" + props.plate_name + ".rt_plate_sent_norm.png", width: "50%", className: "rounded mx-auto d-block", alt: "..." }),
+      React.createElement("img", { src: img_data["L00" + props.lane + "_" + props.plate_name + ".rt_plate_sent_norm.png"], width: "50%", className: "rounded mx-auto d-block", alt: "..." }),
       React.createElement(
         "h5",
         null,
         "Barnyard Normalized"
       ),
-      React.createElement("img", { src: "img/L00" + props.lane + "_" + props.plate_name + ".rt_plate_barn_norm.png", width: "50%", className: "rounded mx-auto d-block", alt: "..." })
+      React.createElement("img", { src: img_data["L00" + props.lane + "_" + props.plate_name + ".rt_plate_barn_norm.png"], width: "50%", className: "rounded mx-auto d-block", alt: "..." })
     ) : React.createElement("span", null)
   );
 }
@@ -181,7 +181,7 @@ function PCRTabPlate(props) {
       "PCR Combo ",
       props.plate_name
     ),
-    React.createElement("img", { src: "img/L00" + props.lane + "_" + props.plate_name + ".pcr_plate.png", width: "50%",
+    React.createElement("img", { src: img_data["L00" + props.lane + "_" + props.plate_name + ".pcr_plate.png"], width: "50%",
       className: "rounded mx-auto d-block", alt: "..." })
   );
 }
@@ -320,7 +320,7 @@ function LigTabPlate(props) {
       "Ligation Plate ",
       props.plate_name
     ),
-    React.createElement("img", { src: "img/L00" + props.lane + "_" + props.plate_name + ".lig_plate.png", width: "50%", className: "rounded mx-auto d-block", alt: "..." })
+    React.createElement("img", { src: img_data["L00" + props.lane + "_" + props.plate_name + ".lig_plate.png"], width: "50%", className: "rounded mx-auto d-block", alt: "..." })
   );
 }
 
@@ -502,7 +502,7 @@ function Header(props) {
       React.createElement(
         "ul",
         { className: "navbar-nav mr-auto" },
-        React.createElement("img", { src: "img/bbi_icon.png", height: "70", className: "d-inline-block align-top", alt: "" })
+        React.createElement("img", { src: "https://raw.githubusercontent.com/bbi-lab/bbi-sci/master/bin/skeleton_dash/img/bbi_icon.png", height: "70", className: "d-inline-block align-top", alt: "" })
       )
     ),
     React.createElement(
