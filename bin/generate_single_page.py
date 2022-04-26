@@ -45,6 +45,7 @@ def main():
     dash_html = replace_js('js/run_data.js', dash_html)
     dash_html = replace_js('js/recovery_summary.js', dash_html)
     dash_html = replace_js('js/demux.js', dash_html)
+    dash_html = replace_js('js/img_data.js', dash_html)
     dash_html = replace_js('js/footer.js', dash_html)
 
     dash_html = replace_css('style/style.css', dash_html)
