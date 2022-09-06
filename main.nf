@@ -1,5 +1,26 @@
+/*
+** Notes:
+**   o  hashed experiments can use many wells with a single RT
+**      barcode so all 'samples' are demultiplexed into a single
+**      fastq file, which is likely to become very large. Our
+**      solution is to split the demultiplexed fastq file when
+**      a single sample occupies more than
+**      params.max_wells_per_sample wells. (The split-sample
+**      fastq files are re-combined into a single file, which
+**      is used to make a single cell_data_set.)
+*/
+
 
 nextflow.enable.dsl=2
+
+/*
+** Where to find scripts.
+** Note: script_dir needs to be visible within Groovy functions
+**       so there is no 'def', which makes it global.
+*/
+pipeline_path="$workflow.projectDir"
+script_dir="${pipeline_path}/bin"
+
 
 DEFAULT = "default"
 default_rt2_barcode_file = "$baseDir/bin/barcode_files/rt2.txt"
