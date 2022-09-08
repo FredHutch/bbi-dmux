@@ -64,6 +64,9 @@ params.p5_wells = 0
 params.p7_wells = 0
 params.pcr_index_pair_file = "NONE"
 
+pipeline_path="$workflow.projectDir"
+script_dir="${pipeline_path}/bin"
+
 include {
     generate_sheets
     check_sample_sheet
@@ -204,7 +207,8 @@ workflow {
         rt_barcode_file,
         p5_barcode_file,
         p7_barcode_file,
-        lig_barcode_file
+        lig_barcode_file,
+        script_dir
     )
 
     csv_stats = seg_sample_fastqs.out.csv_stats

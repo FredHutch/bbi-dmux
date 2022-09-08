@@ -9,6 +9,7 @@ process seg_sample_fastqs {
         file(p5_barcode_file)
         file(p7_barcode_file)
         file(lig_barcode_file)
+        val(script_dir)
 
     output:
         path "demux_out/*", emit: seg_output
@@ -21,7 +22,7 @@ set -euo pipefail
 
 mkdir demux_out
 
-pypy3 ${$workflow.projectDir}/bin/make_sample_fastqs.py --run_directory . \
+pypy3 ${script_dir}/make_sample_fastqs.py --run_directory . \
     --read1 $R1 --read2 $R2 \
     --file_name $R1 --sample_layout $sample_sheet_file \
     --p5_cols_used $params.p5_cols --p7_rows_used $params.p7_rows \
