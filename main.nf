@@ -62,7 +62,7 @@ params.p5_cols = 0
 params.p7_rows = 0
 params.p5_wells = 0
 params.p7_wells = 0
-params.pcr_index_pair_file = false
+params.pcr_index_pair_file = "NONE"
 
 include {
     generate_sheets
