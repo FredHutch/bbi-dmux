@@ -9,7 +9,6 @@ process seg_sample_fastqs {
         file(p5_barcode_file)
         file(p7_barcode_file)
         file(lig_barcode_file)
-        file(pcr_index_pair_file)
 
     output:
         path "demux_out/*", emit: seg_output
@@ -17,7 +16,6 @@ process seg_sample_fastqs {
         path "demux_out/*.stats.json", emit: json_stats
         path "demux_out/*.csv", emit: csv_stats
     script:
-    def pcr_index_pair_param = pcr_index_pair_file.exists() ? "$pcr_index_pair_file" : "0"
 """
 set -euo pipefail
 
@@ -28,7 +26,7 @@ pypy3 make_sample_fastqs.py --run_directory . \
     --file_name $R1 --sample_layout $sample_sheet_file \
     --p5_cols_used $params.p5_cols --p7_rows_used $params.p7_rows \
     --p5_wells_used $params.p5_wells --p7_wells_used $params.p7_wells \
-    --pcr_index_pair_file $pcr_index_pair_file \
+    --pcr_index_pair_file 0 \
     --rt_barcode_file $rt_barcode_file \
     --p5_barcode_file $p5_barcode_file \
     --p7_barcode_file $p7_barcode_file \
