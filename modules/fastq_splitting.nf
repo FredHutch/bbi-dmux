@@ -16,7 +16,8 @@ process seg_sample_fastqs {
         path "demux_out/*.fastq.gz", emit: samp_fastqs_check
         path "demux_out/*.stats.json", emit: json_stats
         path "demux_out/*.csv", emit: csv_stats
-
+    script:
+    def pcr_index_pair_param = pcr_index_pair_file.exists() ? "$pcr_index_pair_file" : "0"
 """
 set -euo pipefail
 
