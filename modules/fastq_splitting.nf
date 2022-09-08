@@ -21,7 +21,7 @@ set -euo pipefail
 
 mkdir demux_out
 
-pypy3 make_sample_fastqs.py --run_directory . \
+pypy3 ${$workflow.projectDir}/bin/make_sample_fastqs.py --run_directory . \
     --read1 $R1 --read2 $R2 \
     --file_name $R1 --sample_layout $sample_sheet_file \
     --p5_cols_used $params.p5_cols --p7_rows_used $params.p7_rows \
