@@ -33,7 +33,7 @@ default_star_file = "$baseDir/bin/star_file.txt"
 params.container__python = "python:3.7.7"
 params.container__bcl2fastq = false
 params.container__rscript = "ghcr.io/fredhutch/docker-genome-tools:latest"
-params.container__mkfastqs = "ghcr.io/fredhutch/docker-biopython-pypy:latest"
+params.container__mkfastqs = "ghcr.io/fredhutch/docker-biopython-pypy:sha-90e781c"
 
 // Input parameters
 params.help = false
