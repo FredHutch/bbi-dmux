@@ -62,7 +62,7 @@ params.p5_cols = 0
 params.p7_rows = 0
 params.p5_wells = 0
 params.p7_wells = 0
-params.pcr_index_pair_file = 0
+params.pcr_index_pair_file = false
 
 include {
     generate_sheets
@@ -166,6 +166,8 @@ workflow {
     p5_barcode_file = params.p5_barcode_file == DEFAULT ? file(default_p5_barcode_file) : file(params.p5_barcode_file)
     p7_barcode_file = params.p7_barcode_file == DEFAULT ? file(default_p7_barcode_file) : file(params.p7_barcode_file)
 
+    pcr_index_pair_file = params.pcr_index_pair_file ? file(params.pcr_index_pair_file) : Channel.empty()
+
     if (params.generate_samplesheets) {
         bbi_universal_sheet_file = Channel.fromPath(params.generate_sample_sheets)
         generate_sheets(bbi_universal_sheet_file)
@@ -204,7 +206,8 @@ workflow {
         rt_barcode_file,
         p5_barcode_file,
         p7_barcode_file,
-        lig_barcode_file
+        lig_barcode_file,
+        pcr_index_pair_file
     )
 
     csv_stats = seg_sample_fastqs.out.csv_stats
