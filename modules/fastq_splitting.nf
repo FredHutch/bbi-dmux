@@ -9,7 +9,6 @@ process seg_sample_fastqs {
         file(p5_barcode_file)
         file(p7_barcode_file)
         file(lig_barcode_file)
-        val(script_dir)
 
     output:
         path "demux_out/*", emit: seg_output
