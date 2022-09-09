@@ -1,6 +1,10 @@
 process seg_sample_fastqs {
     container "${params.container__mkfastqs}"
 
+    publishDir path: "${params.output_dir}/", pattern: "demux_out/*fastq.gz", mode: 'copy', overwrite: true
+    publishDir path: "${params.output_dir}/stats", pattern: "demux_out/*.csv", saveAs: { file(it).getName() }, mode: 'copy', overwrite: true
+    publishDir path: "${params.output_dir}/stats", pattern: "demux_out/*.json", saveAs: { file(it).getName() }, mode: 'copy', overwrite: true
+
     input:
         tuple file(R1), file(R2)
         file(run_parameters_file)
