@@ -6,6 +6,7 @@
 # Version 20220615a
 
 
+import ast
 import barcodeutils_bbi as bu
 import pcrindexutils as pu
 import argparse

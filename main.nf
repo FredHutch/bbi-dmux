@@ -214,14 +214,13 @@ workflow {
     skeleton_dash = file("$baseDir/bin/skeleton_dash")
     demux_dash(csv_stats.collect(), json_stats.collect(), sample_sheet_file, skeleton_dash)
 
-    // TODO: Run recovery needs to be tested
-    // This won't work since we don't have the ability to resume yet
     if (params.run_recovery) {
         undetermined_fastqs = Channel.fromPath("${params.demux_out}/Undetermined*")
 
         run_recovery(
             undetermined_fastqs,
             sample_sheet,
+            run_parameters_file,
             rt_barcode_file,
             p5_barcode_file,
             p7_barcode_file,
