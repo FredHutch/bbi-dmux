@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env pypy3
 # Make sample fastqs 2-level
 # Andrew's barcode parser/fastq combiner modified for 2-level
 
