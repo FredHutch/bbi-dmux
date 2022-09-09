@@ -32,7 +32,6 @@ make_sample_fastqs.py --run_directory . \
     --p7_barcode_file $p7_barcode_file \
     --lig_barcode_file $lig_barcode_file \
     --multi_exp "$params.multi_exp" \
-    --buffer_blocks $params.demux_buffer_blocks \
     --output_dir ./demux_out --level $params.level
 
 pigz -p 8 demux_out/*.fastq    
