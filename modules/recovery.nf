@@ -2,7 +2,7 @@ save_recovery2 = {params.output_dir + "/recovery_output/" +  it - ~/.fastq.gz-su
 save_recovery = {params.output_dir + "/recovery_output/" +  it - ~/.fastq.gz.txt.gz/ + "-recovery_table.txt.gz"}
 
 process run_recovery {
-    container "${params.container__python}"
+    container "${params.container__biopython}"
 
     publishDir path: "${params.output_dir}/recovery_output", saveAs: save_recovery, pattern: "*.gz.txt.gz", mode: 'link', overwrite: true
     publishDir path: "${params.output_dir}/recovery_output", saveAs: save_recovery2, pattern: "*-summary.txt", mode: 'link', overwrite: true
@@ -34,7 +34,8 @@ recovery_script.py --input_file <(zcat $input) --output_file ${input}.txt \
     --lig_barcode_file $lig_barcode_file \
     --level $params.level \
     --rt_barcodes $rt_barcode_file
-    pigz -p 1 *.fastq.gz.txt
+
+pigz -p 1 *.fastq.gz.txt
 """
 }
 

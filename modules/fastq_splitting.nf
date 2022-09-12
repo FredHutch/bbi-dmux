@@ -1,5 +1,5 @@
 process seg_sample_fastqs {
-    container "${params.container__mkfastqs}"
+    container "${params.container__biopython}"
 
     publishDir path: "${params.output_dir}/", pattern: "demux_out/*fastq.gz", mode: 'copy', overwrite: true
     publishDir path: "${params.output_dir}/stats", pattern: "demux_out/*.csv", saveAs: { file(it).getName() }, mode: 'copy', overwrite: true

@@ -9,17 +9,7 @@
 **      fastq files are re-combined into a single file, which
 **      is used to make a single cell_data_set.)
 */
-
-
 nextflow.enable.dsl=2
-
-/*
-** Where to find scripts.
-** Note: script_dir needs to be visible within Groovy functions
-**       so there is no 'def', which makes it global.
-*/
-pipeline_path="$workflow.projectDir"
-script_dir="${pipeline_path}/bin"
 
 DEFAULT = "default"
 default_rt2_barcode_file = "$baseDir/bin/barcode_files/rt2.txt"
@@ -29,41 +19,7 @@ default_p7_barcode_file = "$baseDir/bin/barcode_files/p7.txt"
 default_lig_barcode_file = "$baseDir/bin/barcode_files/ligation.txt"
 default_star_file = "$baseDir/bin/star_file.txt"
 
-// Containers used
-params.container__python = "python:3.7.7"
-params.container__bcl2fastq = false
-params.container__rscript = "ghcr.io/fredhutch/docker-genome-tools:latest"
-params.container__mkfastqs = "ghcr.io/fredhutch/docker-biopython-pypy:sha-92715d2"
-
-// Input parameters
-params.help = false
-params.rerun = false
-params.sample_sheet = false
-params.output_dir = false
-params.run_dir = false
-params.star_file = DEFAULT
-params.level = 3
-params.bcl_max_mem = 32
-params.fastq_chunk_size = 100000000
-params.run_recovery = false
-params.rt_barcode_file = DEFAULT
-params.p5_barcode_file = DEFAULT
-params.p7_barcode_file = DEFAULT
-params.lig_barcode_file = DEFAULT
-params.large = false
-params.generate_samplesheets = false
-params.max_cores = 16
-params.max_wells_per_sample = 20
-params.demux_buffer_blocks = 16
-params.bcl2fastq_barcode_mismatches = 1
-params.minimum_read_length_after_trim = 15
-params.multi_exp = 0
-params.p5_cols = 0
-params.p7_rows = 0
-params.p5_wells = 0
-params.p7_wells = 0
-params.pcr_index_pair_file = "NONE"
-
+// Import sub-workflows
 include {
     generate_sheets
     check_sample_sheet
