@@ -133,11 +133,9 @@ workflow {
         sample_sheet_file = check_sample_sheet.out.good_sample_sheet
     }
 
-    if (!params.run_recovery) {
-        make_sample_sheet(run_parameters_file, sample_sheet_file)
+    make_sample_sheet(run_parameters_file, sample_sheet_file)
 
-        bcl_sample_sheet = make_sample_sheet.out.bcl_sample_sheet
-    }
+    bcl_sample_sheet = make_sample_sheet.out.bcl_sample_sheet
 
     max_cores_bcl = Math.min(16, params.max_cores)
 
