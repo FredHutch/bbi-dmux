@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-import os
 import argparse
+import os
+
 import run_info
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))

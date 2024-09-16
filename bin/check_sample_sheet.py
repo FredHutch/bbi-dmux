@@ -11,9 +11,9 @@
 #
 
 import argparse
-import sys
-import os
 import math
+import os
+import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 RT_FILE = os.path.join(SCRIPT_DIR, 'barcode_files/rt2.txt')

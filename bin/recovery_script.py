@@ -1,15 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env pypy3
 
-from Bio.SeqIO.QualityIO import FastqGeneralIterator
-import barcodeutils as bu
 import argparse
-import os
-import glob
-import xml.etree.ElementTree as ET
 import operator
+import os
+
+import barcodeutils_bbi as bu
+
 import run_info
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+
 
 def get_programmed_pcr_combos_wells(p5_wells_used, p7_wells_used):
     """
@@ -576,6 +576,3 @@ if __name__ == '__main__':
         x = make_undetermined_dict_3lvl(args.input_file, args.output_file)
     else:
         x = make_undetermined_dict_2lvl(args.input_file, args.output_file)
-
-
-
